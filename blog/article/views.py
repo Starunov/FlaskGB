@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template
 from werkzeug.exceptions import NotFound
 
+from blog.models import Article
+
 article = Blueprint(
     'article',
     __name__,
@@ -9,23 +11,16 @@ article = Blueprint(
     template_folder='../templates',
 )
 
-ARTICLES = {
-    1: 'article 1',
-    2: 'article 2',
-    3: 'article 3',
-    4: 'article 4',
-}
-
 
 @article.route('/')
 def article_list():
-    return render_template('article/list.html', articles=ARTICLES)
+    articles = Article.query.all()
+    return render_template('article/list.html', articles=articles)
 
 
 @article.route('/<int:article_id>')
 def article_detail(article_id: int):
-    try:
-        article = ARTICLES[article_id]
-    except KeyError:
+    article = Article.query.filter_by(id=article_id).one_or_none()
+    if not article:
         raise NotFound(f'Article id {article_id} not found')
     return render_template('article/detail.html', article=article)

@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Article {{ article }}
+    {{ article.title }}
 {% endblock %}
 
 {% block content %}
-    <h1>{{ article }}</h1>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title text-center">{{ article.title }}</h3>
+            <p class="card-text">{{ article.text }}</p>
+            <div class="modal-body text-muted text-lg-end">
+                <p>Дата создания: {{ article.created_at.strftime('%d.%m.%Y') }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
