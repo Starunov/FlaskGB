@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
 from werkzeug.exceptions import NotFound
 
 from blog.models import Article
@@ -19,6 +20,7 @@ def article_list():
 
 
 @article.route('/<int:article_id>')
+@login_required
 def article_detail(article_id: int):
     article = Article.query.filter_by(id=article_id).one_or_none()
     if not article:

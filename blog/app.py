@@ -6,6 +6,7 @@ from flask import Flask
 from blog.extensions import db
 from blog.extensions import login_manager
 from blog.extensions import migrate
+from blog.extensions import csrf
 
 # Blueprints
 from blog.article.views import article
@@ -40,6 +41,7 @@ def register_extensions(app: Flask):
     login_manager.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db, compare_type=True)
+    csrf.init_app(app)
 
 
 def register_commands(app: Flask):
