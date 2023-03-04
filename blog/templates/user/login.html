@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% from "macro/formhelpers.html" import render_field %}
+
+{% block title %}
+    Login register
+{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {{ form.csrf_token }}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="{{ message[0] }} col-md">
+                        {{ message[1] }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% for field in ['email', 'password'] %}
+            {{ render_field(form[field]) }}
+        {% endfor %}
+        {{ form.submit(class="btn btn-primary mb-3") }}
+        <a class="text-decoration-none ms-3" href="{{ url_for('auth.register') }}">Register</a>
+</form>
+{% endblock %}

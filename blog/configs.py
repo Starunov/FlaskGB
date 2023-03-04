@@ -10,6 +10,8 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'blog.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    WTF_CSRF_ENABLED = True
+
 
 class DevConfig(BaseConfig):
     DEBUG = True

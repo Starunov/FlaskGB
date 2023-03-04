@@ -3,6 +3,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from blog.extensions import login_manager
+from blog.forms.user import UserRegisterForm, UserLoginForm
 from blog.models import User
 from blog.extensions import db
 
@@ -27,17 +28,22 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('user.user_list'))
 
+    form = UserLoginForm(request.form)
+    errors = []
+
     if request.method == 'GET':
-        return render_template('auth/login.html')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    user = User.query.filter_by(email=email).one_or_none()
-    if not user or not check_password_hash(user.password, password):
+        return render_template('user/login.html', form=form)
+
+    if not form.validate_on_submit():
+        return render_template('user/login.html', form=form, errors=errors)
+
+    _user = User.query.filter_by(email=form.email.data).one_or_none()
+    if not _user or not check_password_hash(_user.password, form.password.data):
         flash('Check your login details', 'alert alert-danger')
         return redirect(url_for('.login'))
 
-    login_user(user)
-    return redirect(url_for('user.user_detail', user_id=user.id))
+    login_user(_user)
+    return redirect(url_for('user.user_list'))
 
 
 @auth.route('/logout')
@@ -47,49 +53,33 @@ def logout():
     return redirect(url_for('user.user_list'))
 
 
-@auth.route('/register', methods=['GET', 'POST'], endpoint='register')
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
+        return redirect(url_for("user.user_list", user_id=current_user.id))
+
+    form = UserRegisterForm(request.form)
+    errors = []
+
+    if request.method == 'POST' and form.validate_on_submit():
+        if User.query.filter_by(username=form.username.data).count():
+            form.username.errors.append('username not uniq')
+            return render_template('user/register.html', form=form)
+
+        if User.query.filter_by(email=form.email.data).count():
+            form.email.errors.append('email not uniq')
+            return render_template('user/register.html', form=form)
+
+        _user = User(
+            username=form.username.data,
+            email=form.email.data,
+            password=generate_password_hash(form.password.data),
+        )
+
+        db.session.add(_user)
+        db.session.commit()
+
+        login_user(_user)
         return redirect(url_for('user.user_list'))
 
-    if request.method == 'GET':
-        return render_template('auth/register.html')
-
-    username = request.form.get('username')
-    email = request.form.get('email')
-    password1 = request.form.get('password1')
-    password2 = request.form.get('password2')
-
-    for key, val in locals().items():
-        if key == 'password2':
-            continue
-        if not val:
-            if key == 'password1':
-                key = 'password'
-            flash(f"{key.capitalize()} field not be empty")
-            return render_template('auth/register.html', username=username, email=email)
-
-    user = User.query.filter_by(username=username).one_or_none()
-    if user:
-        flash("Username exists")
-        return render_template('auth/register.html', email=email)
-
-    user = User.query.filter_by(email=email).one_or_none()
-    if user:
-        flash("Email exists")
-        return render_template('auth/register.html', username=username)
-
-    if password1 != password2:
-        flash("Passwords don't match")
-        return render_template('auth/register.html', username=username, email=email)
-
-    user = User(
-        username=username,
-        password=generate_password_hash(password1),
-        email=email
-    )
-    db.session.add(user)
-    db.session.commit()
-
-    flash('Congratulations, you are now a registered user!', 'alert alert-success')
-    return redirect(url_for('.login'))
+    return render_template('user/register.html', form=form, errors=errors)
