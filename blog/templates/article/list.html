@@ -24,7 +24,7 @@
                     {{ article.created_at.strftime('%d.%m.%Y %H:%M') }}
                 </div>
                 <div class="col">
-                    {{ article.user.username|capitalize() }}
+                    {{ article.author.user.username }}
                 </div>
             </div>
         {% endfor %}

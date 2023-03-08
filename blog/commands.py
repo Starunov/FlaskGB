@@ -16,7 +16,7 @@ def init_db():
 def create_user():
     admin = User(
         username='admin',
-        password=generate_password_hash('admin'),
+        password=generate_password_hash('adminadmin'),
         email='admin@admin.com',
         is_staff=True
     )

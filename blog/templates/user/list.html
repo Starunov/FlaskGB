@@ -11,7 +11,6 @@
             <div class="col">USERNAME</div>
             <div class="col">EMAIL</div>
             <div class="col-2">IS STAFF</div>
-            <div class="col">ARTICLES</div>
         </div>
         {% for user in users %}
             <div class="row text-center mb-3"  style="background-color: #eee">
@@ -21,7 +20,6 @@
                 </div>
                 <div class="col">{{ user.email }}</div>
                 <div class="col-2">{{ user.is_staff }}</div>
-                <div class="col">{{ user.article_author|length() }}</div>
             </div>
         {% endfor %}
     </div>
