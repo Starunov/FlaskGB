@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Authors
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row bg-dark text-light text-center mb-3">
+            <div class="col-1">#</div>
+            <div class="col">USERNAME</div>
+            <div class="col">EMAIL</div>
+            <div class="col-2">IS STAFF</div>
+            <div class="col">ARTICLES</div>
+        </div>
+        {% for author in authors %}
+            <div class="row text-center mb-3"  style="background-color: #eee">
+                <div class="col-1">{{ loop.index }}</div>
+                <div class="col">
+                    <a class="text-decoration-none" href="{{ url_for('author.author_detail', author_id=author.id) }}">{{ author.user.username|capitalize() }}</a>
+                </div>
+                <div class="col">{{ author.user.email }}</div>
+                <div class="col-2">{{ author.user.is_staff }}</div>
+                <div class="col">{{ author.article | count() }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -12,6 +12,7 @@ from blog.extensions import csrf
 from blog.article.views import article
 from blog.user.views import user
 from blog.auth.views import auth
+from blog.author.views import author
 
 # Commands
 from blog.commands import *
@@ -35,6 +36,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(user)
     app.register_blueprint(article)
     app.register_blueprint(auth)
+    app.register_blueprint(author)
 
 
 def register_extensions(app: Flask):
