@@ -50,3 +50,4 @@ def register_commands(app: Flask):
     app.cli.add_command(init_db)
     app.cli.add_command(create_user)
     app.cli.add_command(create_article)
+    app.cli.add_command(create_tags)

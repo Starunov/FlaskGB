@@ -9,8 +9,20 @@
         <div class="card-body">
             <h3 class="card-title text-center">{{ article.title }}</h3>
             <p class="card-text">{{ article.text }}</p>
-            <div class="modal-body text-muted text-lg-end">
-                <p>Дата создания: {{ article.created_at.strftime('%d.%m.%Y') }}</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg text-muted small">
+                        <span>Дата создания: {{ article.created_at.strftime('%d.%m.%Y') }}</span>
+                        <br>
+                        <span>Дата изменения: {{ article.updated_at.strftime('%d.%m.%Y') }}</span>
+                    </div>
+                    <div class="col-md">
+                        Tag:
+                        {% for tag in article.tags %}
+                            <a href="{{ url_for('article.article_list', tag=tag.name) }}" class="badge text-bg-secondary text-decoration-none">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
