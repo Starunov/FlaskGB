@@ -4,7 +4,7 @@ from werkzeug.exceptions import NotFound
 from blog.models import User
 
 user = Blueprint(
-    'user',
+    'user_bp',
     __name__,
     url_prefix='/users',
     static_folder='../static',

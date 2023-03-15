@@ -3,7 +3,7 @@ from flask import Blueprint, render_template
 from blog.models.author import Author
 
 author = Blueprint(
-    'author',
+    'author_bp',
     __name__,
     url_prefix='/authors',
     static_folder='../static',

@@ -19,5 +19,4 @@ class Article(db.Model):
     tags = relationship('Tag', secondary=article_tag_association_table, back_populates='articles')
 
     def __repr__(self):
-        # return f"{self.title}"
-        return f"{self.title} author-{self.author_id}"
+        return f"{self.title}"

@@ -19,7 +19,7 @@
                     {{ loop.index }}
                 </div>
                 <div class="col">
-                    <a class="text-decoration-none" href="{{ url_for('article.article_detail', article_id=article.id) }}">{{ article.title }}</a>
+                    <a class="text-decoration-none" href="{{ url_for('article_bp.article_detail', article_id=article.id) }}">{{ article.title }}</a>
                 </div>
                 <div class="col">
                     {{ article.text|truncate(50) }}

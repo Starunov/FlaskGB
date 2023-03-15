@@ -12,6 +12,8 @@ class BaseConfig:
 
     WTF_CSRF_ENABLED = True
 
+    FLASK_ADMIN_SWATCH = 'lumen'
+
 
 class DevConfig(BaseConfig):
     DEBUG = True

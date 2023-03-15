@@ -1,0 +1,15 @@
+{% extends 'admin/master.html' %}
+
+{% block main_menu %}
+    {{ super() }}
+    <div class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                {{ current_user|capitalize() }}
+            </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ url_for('auth_bp.logout') }}">Logout</a>
+            </div>
+        </li>
+    </div>
+{% endblock %}

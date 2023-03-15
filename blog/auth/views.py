@@ -8,7 +8,7 @@ from blog.models import User
 from blog.extensions import db
 
 auth = Blueprint(
-    'auth',
+    'auth_bp',
     __name__,
 )
 
@@ -20,13 +20,13 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth_bp.login'))
 
 
 @auth.route('/login', methods=['GET', 'POST'], endpoint='login')
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('user.user_list'))
+        return redirect(url_for('user_bp.user_list'))
 
     form = UserLoginForm(request.form)
     errors = []
@@ -40,23 +40,23 @@ def login():
     _user = User.query.filter_by(email=form.email.data).one_or_none()
     if not _user or not check_password_hash(_user.password, form.password.data):
         flash('Check your login details', 'alert alert-danger')
-        return redirect(url_for('.login'))
+        return redirect(url_for('auth_bp.login'))
 
     login_user(_user)
-    return redirect(url_for('user.user_list'))
+    return redirect(url_for('user_bp.user_list'))
 
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('user.user_list'))
+    return redirect(url_for('user_bp.user_list'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for("user.user_list", user_id=current_user.id))
+        return redirect(url_for("user_bp.user_list", user_id=current_user.id))
 
     form = UserRegisterForm(request.form)
     errors = []
@@ -80,6 +80,6 @@ def register():
         db.session.commit()
 
         login_user(_user)
-        return redirect(url_for('user.user_list'))
+        return redirect(url_for('user_bp.user_list'))
 
     return render_template('user/register.html', form=form, errors=errors)
