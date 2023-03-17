@@ -11,7 +11,7 @@ from blog.models import Article, User, Tag
 from blog.models.author import Author
 
 article = Blueprint(
-    'article',
+    'article_bp',
     __name__,
     url_prefix='/articles',
     static_folder='../static',

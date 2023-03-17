@@ -13,6 +13,7 @@ from blog.article.views import article
 from blog.user.views import user
 from blog.auth.views import auth
 from blog.author.views import author
+from blog.admin.views import admin
 
 # Commands
 from blog.commands import *
@@ -44,6 +45,7 @@ def register_extensions(app: Flask):
     db.init_app(app)
     migrate.init_app(app, db, compare_type=True)
     csrf.init_app(app)
+    admin.init_app(app)
 
 
 def register_commands(app: Flask):
