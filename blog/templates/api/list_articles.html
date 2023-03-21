@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Articles API
+{% endblock %}
+
+{% block content %}
+    <h1>Всего статей {{ articles_count }}</h1>
+    <div class="container">
+        <div class="row text-center bg-dark text-light mb-3">
+            <div class="col-1">#</div>
+            <div class="col">TITLE</div>
+            <div class="col">TEXT</div>
+            <div class="col">CREATED AT</div>
+        </div>
+        {% for article in articles %}
+            <div class="row text-center mb-3" style="background-color: #eee">
+                <div class="col-1">
+                    {{ loop.index }}
+                </div>
+                <div class="col">
+                    <a class="text-decoration-none" href="{{ url_for('article_bp.article_detail', article_id=article.id) }}">{{ article.attributes.title }}</a>
+                </div>
+                <div class="col">
+                    {{ article.attributes.text|truncate(50) }}
+                </div>
+                <div class="col">
+                    {{ article.attributes.created_at }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
