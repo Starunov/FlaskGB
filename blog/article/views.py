@@ -32,6 +32,21 @@ def article_list():
     return render_template('article/list.html', articles=articles)
 
 
+@article.route('/api')
+@login_required
+def article_list_api():
+    import requests
+    import pprint
+    articles_count = requests.get('http://127.0.0.1:5000/api/articles/event_get_count/').json().get('count')
+    articles = requests.get('http://127.0.0.1:5000/api/articles').json().get('data')
+    pprint.pprint(articles)
+    contex = {
+        'articles_count': articles_count,
+        'articles': articles,
+    }
+    return render_template('api/list_articles.html', **contex)
+
+
 @article.route('/<int:article_id>')
 @login_required
 def article_detail(article_id: int):
