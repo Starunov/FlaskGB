@@ -3,8 +3,8 @@ from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from blog.extensions import login_manager
-from blog.forms.user import UserRegisterForm, UserLoginForm
-from blog.models import User
+from blog.forms.users import UserRegisterForm, UserLoginForm
+from blog.models import Users
 from blog.extensions import db
 
 auth = Blueprint(
@@ -15,7 +15,7 @@ auth = Blueprint(
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter_by(id=user_id).one_or_none()
+    return Users.query.filter_by(id=user_id).one_or_none()
 
 
 @login_manager.unauthorized_handler
@@ -37,7 +37,7 @@ def login():
     if not form.validate_on_submit():
         return render_template('user/login.html', form=form, errors=errors)
 
-    _user = User.query.filter_by(email=form.email.data).one_or_none()
+    _user = Users.query.filter_by(email=form.email.data).one_or_none()
     if not _user or not check_password_hash(_user.password, form.password.data):
         flash('Check your login details', 'alert alert-danger')
         return redirect(url_for('auth_bp.login'))
@@ -62,15 +62,15 @@ def register():
     errors = []
 
     if request.method == 'POST' and form.validate_on_submit():
-        if User.query.filter_by(username=form.username.data).count():
+        if Users.query.filter_by(username=form.username.data).count():
             form.username.errors.append('username not uniq')
             return render_template('user/register.html', form=form)
 
-        if User.query.filter_by(email=form.email.data).count():
+        if Users.query.filter_by(email=form.email.data).count():
             form.email.errors.append('email not uniq')
             return render_template('user/register.html', form=form)
 
-        _user = User(
+        _user = Users(
             username=form.username.data,
             email=form.email.data,
             password=generate_password_hash(form.password.data),

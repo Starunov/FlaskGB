@@ -132,3 +132,4 @@ dmypy.json
 
 # Sqlite
 *.db
+*.db.dump

@@ -7,7 +7,7 @@ from werkzeug.exceptions import NotFound
 
 from blog.extensions import db
 from blog.forms.article import CreateArticleForm
-from blog.models import Article, User, Tag
+from blog.models import Article, Users, Tag
 from blog.models.author import Author
 
 article = Blueprint(
