@@ -23,7 +23,8 @@ article = Blueprint(
 def article_list():
     tag = request.args.get('tag')
     user_id = request.args.get('user_id')
-    author_id = Author.query.filter_by(user_id=user_id).one_or_none()
+    author = Author.query.filter_by(user_id=user_id).one_or_none()
+    author_id = author.id if author else None
     if tag:
         articles = Tag.query.filter_by(name=tag).one().articles
     elif author_id and int(author_id) == current_user.id:
