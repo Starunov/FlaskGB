@@ -25,9 +25,10 @@ def article_list():
     user_id = request.args.get('user_id')
     author = Author.query.filter_by(user_id=user_id).one_or_none()
     author_id = author.id if author else None
+    print(author_id)
     if tag:
         articles = Tag.query.filter_by(name=tag).one().articles
-    elif author_id and int(author_id) == current_user.id:
+    elif author_id:
         articles = Article.query.filter_by(author_id=author_id)
     else:
         articles = Article.query.all()
