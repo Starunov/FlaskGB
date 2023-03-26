@@ -7,7 +7,7 @@ from combojsonapi.permission.permission_system import (
 from flask_combo_jsonapi.exceptions import AccessDenied
 from flask_login import current_user
 
-from blog.models.user import User
+from blog.models.users import Users
 
 
 class UserPermissions(PermissionMixin):
@@ -34,7 +34,7 @@ class UserPermissions(PermissionMixin):
         return self.permission_for_patch
 
     def patch_data(self, *args, data=None, obj=None, user_permission: PermissionUser = None, **kwargs) -> dict:
-        permission_for_patch = user_permission.permission_for_patch_permission(model=User)
+        permission_for_patch = user_permission.permission_for_patch_permission(model=Users)
         return {
             k: v
             for k, v in data.items()

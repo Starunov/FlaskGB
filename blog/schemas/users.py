@@ -4,7 +4,7 @@ from marshmallow_jsonapi import Schema, fields
 
 class UserSchema(Schema):
     class Meta:
-        type_ = 'user'
+        type_ = 'users'
         self_url = 'user_detail'
         self_url_kwargs = {'id': '<id>'}
         self_url_many = 'user_list'

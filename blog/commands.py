@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 
 from blog.extensions import db
 from blog.models.article import Article
-from blog.models import User
+from blog.models import Users
 
 
 @cli.command('init-db')
@@ -12,9 +12,9 @@ def init_db():
     print('done!')
 
 
-@cli.command('create-user')
+@cli.command('create-superuser')
 def create_user():
-    admin = User(
+    admin = Users(
         username='admin',
         password=generate_password_hash('adminadmin'),
         email='admin@admin.com',
@@ -23,7 +23,7 @@ def create_user():
 
     db.session.add(admin)
     db.session.commit()
-    print('done! Created user:', admin)
+    print('done! Created users:', admin)
 
 
 @cli.command('create-article')

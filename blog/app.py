@@ -11,7 +11,7 @@ from blog.api import init_api
 
 # Blueprints
 from blog.article.views import article
-from blog.user.views import user
+from blog.users.views import user
 from blog.auth.views import auth
 from blog.author.views import author
 from blog.admin.views import admin

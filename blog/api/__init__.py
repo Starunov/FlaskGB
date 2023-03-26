@@ -6,7 +6,7 @@ from flask_combo_jsonapi import Api
 from blog.api.article import ArticleList, ArticleDetail
 from blog.api.author import AuthorDetail, AuthorList
 from blog.api.tag import TagList, TagDetail
-from blog.api.user import UserList, UserDetail
+from blog.api.users import UserList, UserDetail
 
 
 def create_api_spec_plugin(app):
@@ -16,7 +16,7 @@ def create_api_spec_plugin(app):
             'Tag': 'Tag API',
             'Article': 'Article API',
             'Author': 'Author API',
-            'User': 'User API',
+            'Users': 'Users API',
         }
     )
     return api_spec_plugin

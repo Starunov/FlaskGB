@@ -7,7 +7,7 @@ from werkzeug.exceptions import NotFound
 
 from blog.extensions import db
 from blog.forms.article import CreateArticleForm
-from blog.models import Article, User, Tag
+from blog.models import Article, Users, Tag
 from blog.models.author import Author
 
 article = Blueprint(
@@ -67,7 +67,7 @@ def create():
     form.tags.choices = [(tag.id, tag.name) for tag in Tag.query.order_by('name')]
 
     if request.method == 'POST' and form.validate_on_submit():
-        author = Author.query.filter_by(id=current_user.id).one_or_none()
+        author = Author.query.filter_by(user_id=current_user.id).one_or_none()
         if author is None:
             author = Author(
                 user_id=current_user.id

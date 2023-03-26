@@ -2,7 +2,7 @@ from flask import redirect, url_for
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 
-from blog.models import Article, Author, User, Tag
+from blog.models import Article, Author, Users, Tag
 from blog.extensions import db, admin
 
 
@@ -38,10 +38,10 @@ class ArticleAdminView(CustomAdminView):
 
 class AuthorAdminView(CustomAdminView):
     edit_template = True
-    column_list = ('user', 'article')
+    column_list = ('users', 'article')
 
 
 admin.add_view(TagAdminView(Tag, db.session, category='Models'))
 admin.add_view(ArticleAdminView(Article, db.session, category='Models'))
 admin.add_view(AuthorAdminView(Author, db.session, category='Models'))
-admin.add_view(UserAdminView(User, db.session, category='Models'))
+admin.add_view(UserAdminView(Users, db.session, category='Models'))
