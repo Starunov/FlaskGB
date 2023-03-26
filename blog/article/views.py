@@ -80,7 +80,7 @@ def create():
             _article = Article(
                 title=form.title.data,
                 text=form.text.data,
-                author_id=current_user.id,
+                author_id=author.id,
             )
 
         if form.tags.data:
